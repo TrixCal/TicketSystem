@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Collections.Generic;
+using NLog.Web;
 
 namespace TicketSystem
 {
@@ -8,6 +9,10 @@ namespace TicketSystem
     {
         static void Main(string[] args)
         {
+            //logger
+            NLog.Logger logger = NLogBuilder.ConfigureNLog(Directory.GetCurrentDirectory() + "\\nlog.config").GetCurrentClassLogger();
+            logger.Info("Program started");
+            //init
             TicketFile ticketFile = new TicketFile("Tickets.txt");
             string choice;
             do{
@@ -51,14 +56,10 @@ namespace TicketSystem
                     //Removes ticket by ID
                     Console.Write("ID of ticket to remove: ");
                     int ticketID = int.Parse(Console.ReadLine());
-                    if(ticketFile.RemoveTicket(ticketID)){
-                        Console.WriteLine($"Ticket #{ticketID} succesfully removed!");
-                    }
-                    else{
-                        Console.WriteLine($"Unable to find ticket #{ticketID}");
-                    }
+                    ticketFile.RemoveTicket(ticketID);
                 }
             }while(choice == "1" || choice == "2" || choice == "3");
+            logger.Info("Program ended");
         }
     }
 }
