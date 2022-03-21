@@ -17,20 +17,53 @@ namespace TicketSystem{
                 //populate list
                 StreamReader sr = new StreamReader(FilePath);
                 while(!sr.EndOfStream){
-                    //create instance of ticket
-                    Ticket ticket = new Ticket();
+                    //read line
                     string line = sr.ReadLine();
                     string[] ticketDetails = line.Split(',');
-                    //assign variables
-                    ticket.ID = int.Parse(ticketDetails[0]);
-                    ticket.Summary = ticketDetails[1];
-                    ticket.Status = ticketDetails[2];
-                    ticket.Priority = ticketDetails[3];
-                    ticket.Submitter = ticketDetails[4];
-                    ticket.Assigned = ticketDetails[5];
-                    ticket.Watching = ticketDetails[6].Split('|').ToList();
-                    //add instance to list
-                    Tickets.Add(ticket);
+                    //create instance of ticket
+                    if(ticketDetails.Length == 11){
+                        Enhancement ticket = new Enhancement();
+                        ticket.ID = int.Parse(ticketDetails[0]);
+                        ticket.Summary = ticketDetails[1];
+                        ticket.Status = ticketDetails[2];
+                        ticket.Priority = ticketDetails[3];
+                        ticket.Submitter = ticketDetails[4];
+                        ticket.Assigned = ticketDetails[5];
+                        ticket.Watching = ticketDetails[6].Split('|').ToList();
+                        ticket.Software = ticketDetails[7];
+                        ticket.Cost = double.Parse(ticketDetails[8]);
+                        ticket.Reason = ticketDetails[9];
+                        ticket.Estimate = double.Parse(ticketDetails[10]);
+                        //add enhancement to list
+                        Tickets.Add(ticket);
+                    }
+                    else if(ticketDetails.Length == 9){
+                        Task ticket = new Task();
+                        ticket.ID = int.Parse(ticketDetails[0]);
+                        ticket.Summary = ticketDetails[1];
+                        ticket.Status = ticketDetails[2];
+                        ticket.Priority = ticketDetails[3];
+                        ticket.Submitter = ticketDetails[4];
+                        ticket.Assigned = ticketDetails[5];
+                        ticket.Watching = ticketDetails[6].Split('|').ToList();
+                        ticket.ProjectName = ticketDetails[7];
+                        ticket.DueDate = DateTime.Parse(ticketDetails[8]);
+                        //add task to list
+                        Tickets.Add(ticket);
+                    }
+                    else{
+                        Bug ticket = new Bug();
+                        ticket.ID = int.Parse(ticketDetails[0]);
+                        ticket.Summary = ticketDetails[1];
+                        ticket.Status = ticketDetails[2];
+                        ticket.Priority = ticketDetails[3];
+                        ticket.Submitter = ticketDetails[4];
+                        ticket.Assigned = ticketDetails[5];
+                        ticket.Watching = ticketDetails[6].Split('|').ToList();
+                        ticket.Severity = ticketDetails.Length == 8 ? ticketDetails[7] : "Unassigned";  //accepts older style tickets as bugs
+                        //add bug to list
+                        Tickets.Add(ticket);
+                    }
                 }
                 //close file
                 sr.Close();
@@ -47,7 +80,45 @@ namespace TicketSystem{
             }
         }
 
-        public void AddTicket(Ticket ticket){
+        public void AddTicket(Bug ticket){
+            try{
+                //generate id for ticket
+                if(Tickets.Count() > 0)
+                    ticket.ID = Tickets.Max(m => m.ID) + 1;
+                else
+                    ticket.ID = 1;
+                //write to file
+                StreamWriter sw = new StreamWriter(FilePath, true);
+                sw.WriteLine(ticket.ToString());
+                sw.Close();
+                //add to list
+                Tickets.Add(ticket);
+                logger.Info($"Successfully Added Ticket #{ticket.ID}");
+            }
+            catch(Exception ex){
+                logger.Error(ex.Message);
+            }
+        }
+        public void AddTicket(Enhancement ticket){
+            try{
+                //generate id for ticket
+                if(Tickets.Count() > 0)
+                    ticket.ID = Tickets.Max(m => m.ID) + 1;
+                else
+                    ticket.ID = 1;
+                //write to file
+                StreamWriter sw = new StreamWriter(FilePath, true);
+                sw.WriteLine(ticket.ToString());
+                sw.Close();
+                //add to list
+                Tickets.Add(ticket);
+                logger.Info($"Successfully Added Ticket #{ticket.ID}");
+            }
+            catch(Exception ex){
+                logger.Error(ex.Message);
+            }
+        }
+        public void AddTicket(Task ticket){
             try{
                 //generate id for ticket
                 if(Tickets.Count() > 0)

@@ -28,29 +28,109 @@ namespace TicketSystem
                     ticketFile.Display();
                 }
                 if(choice == "2"){
-                    //Prompt ticket elements
-                    Ticket ticket = new Ticket();
-                    ticket.ID = 0;
-                    Console.Write("Summary: ");
-                    ticket.Summary = Console.ReadLine();
-                    Console.Write("Status: ");
-                    ticket.Status = Console.ReadLine();
-                    Console.Write("Priority: ");
-                    ticket.Priority = Console.ReadLine();
-                    Console.Write("Submitter: ");
-                    ticket.Submitter = Console.ReadLine();
-                    Console.Write("Assigned: ");
-                    ticket.Assigned = Console.ReadLine();
-                    Console.Write("Watching (type \"n\" to stop): ");
-                    string line = Console.ReadLine();
-                    List<string> names = new List<string>();
-                    do{
-                        names.Add(line);
-                        line = Console.ReadLine();
-                    }while(line != "n");
-                    ticket.Watching = names;
-                    //add ticket to file
-                    ticketFile.AddTicket(ticket);
+                    //type of ticket
+                    Console.WriteLine("Types of Tickets; Bug, Enhancement, Task");
+                    Console.Write("Type: ");
+                    string input = Console.ReadLine().ToLower();
+                    if(input == "bug"){
+                        //Prompt bug elements
+                        Bug ticket = new Bug();
+                        ticket.ID = 0;
+                        Console.Write("Summary: ");
+                        ticket.Summary = Console.ReadLine();
+                        Console.Write("Status: ");
+                        ticket.Status = Console.ReadLine();
+                        Console.Write("Priority: ");
+                        ticket.Priority = Console.ReadLine();
+                        Console.Write("Submitter: ");
+                        ticket.Submitter = Console.ReadLine();
+                        Console.Write("Assigned: ");
+                        ticket.Assigned = Console.ReadLine();
+                        Console.Write("Watching (type \"n\" to stop): ");
+                        string line = Console.ReadLine();
+                        List<string> names = new List<string>();
+                        do{
+                            names.Add(line);
+                            line = Console.ReadLine();
+                        }while(line != "n");
+                        ticket.Watching = names;
+                        Console.Write("Severity: ");
+                        ticket.Severity = Console.ReadLine();
+                        //add ticket to file
+                        ticketFile.AddTicket(ticket);
+                    }
+                    else if(input == "enhancement"){
+                        try{
+                            //Prompt enhancement elements
+                            Enhancement ticket = new Enhancement();
+                            ticket.ID = 0;
+                            Console.Write("Summary: ");
+                            ticket.Summary = Console.ReadLine();
+                            Console.Write("Status: ");
+                            ticket.Status = Console.ReadLine();
+                            Console.Write("Priority: ");
+                            ticket.Priority = Console.ReadLine();
+                            Console.Write("Submitter: ");
+                            ticket.Submitter = Console.ReadLine();
+                            Console.Write("Assigned: ");
+                            ticket.Assigned = Console.ReadLine();
+                            Console.Write("Watching (type \"n\" to stop): ");
+                            string line = Console.ReadLine();
+                            List<string> names = new List<string>();
+                            do{
+                                names.Add(line);
+                                line = Console.ReadLine();
+                            }while(line != "n");
+                            ticket.Watching = names;
+                            Console.Write("Software: ");
+                            ticket.Software = Console.ReadLine();
+                            Console.Write("Cost: $");
+                            ticket.Cost = double.Parse(Console.ReadLine());
+                            Console.Write("Reason: ");
+                            ticket.Reason = Console.ReadLine();
+                            Console.Write("Estimate: $");
+                            ticket.Estimate = double.Parse(Console.ReadLine());
+                            //add ticket to file
+                            ticketFile.AddTicket(ticket);
+                        }
+                        catch(Exception ex){
+                            logger.Error(ex.Message);
+                        }
+                    }
+                    else if(input == "task"){
+                        try{
+                            //Prompt task elements
+                            Task ticket = new Task();
+                            ticket.ID = 0;
+                            Console.Write("Summary: ");
+                            ticket.Summary = Console.ReadLine();
+                            Console.Write("Status: ");
+                            ticket.Status = Console.ReadLine();
+                            Console.Write("Priority: ");
+                            ticket.Priority = Console.ReadLine();
+                            Console.Write("Submitter: ");
+                            ticket.Submitter = Console.ReadLine();
+                            Console.Write("Assigned: ");
+                            ticket.Assigned = Console.ReadLine();
+                            Console.Write("Watching (type \"n\" to stop): ");
+                            string line = Console.ReadLine();
+                            List<string> names = new List<string>();
+                            do{
+                                names.Add(line);
+                                line = Console.ReadLine();
+                            }while(line != "n");
+                            ticket.Watching = names;
+                            Console.Write("Project Name: ");
+                            ticket.ProjectName = Console.ReadLine();
+                            Console.Write("Due Date: ");
+                            ticket.DueDate = DateTime.Parse(Console.ReadLine());
+                            //add ticket to file
+                            ticketFile.AddTicket(ticket);
+                        }
+                        catch(Exception ex){
+                            logger.Error(ex.Message);
+                        }
+                    }
                 }
                 if(choice == "3"){
                     //Removes ticket by ID
