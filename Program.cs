@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Collections.Generic;
+using System.Linq;
 using NLog.Web;
 
 namespace TicketSystem
@@ -17,17 +18,45 @@ namespace TicketSystem
             string choice;
             do{
                 //menu prompt
-                Console.WriteLine("1) View Current Tickets");
-                Console.WriteLine("2) Add Ticket");
-                Console.WriteLine("3) Remove Ticket");
+                Console.WriteLine("1) View All Current Tickets");
+                Console.WriteLine("2) Search for Ticket");
+                Console.WriteLine("3) Add Ticket");
+                Console.WriteLine("4) Remove Ticket");
                 Console.WriteLine("Enter any key to exit");
                 //user input
                 choice = Console.ReadLine();
                 if(choice == "1"){
                     //Read file and writeline ticket
+                    Console.ForegroundColor = ConsoleColor.Green;
                     ticketFile.Display();
+                    Console.ForegroundColor = ConsoleColor.White;
                 }
                 if(choice == "2"){
+                    //Status: Open - In Process - Done - Not Applicable
+                    //Priority: Critical - High - Normal - Low
+                    Console.Write("Search Word: ");
+                    string word = Console.ReadLine();
+                    Console.WriteLine($"Search {word} by; Status, Priority, Submitter");
+                    Console.Write("Type: ");
+                    string input = Console.ReadLine().ToLower();
+                    IEnumerable<Ticket> Tickets = new List<Ticket>();
+                    if(input == "status"){
+                        Tickets = ticketFile.Tickets.Where(t => t.Status.Contains(word));
+                    }
+                    else if(input == "priority"){
+                        Tickets = ticketFile.Tickets.Where(t => t.Priority.Contains(word));
+                    }
+                    else if(input == "submitter"){
+                        Tickets = ticketFile.Tickets.Where(t => t.Submitter.Contains(word));
+                    }
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.WriteLine($"There are {Tickets.Count()} tickets found by the word \"{word}\".\n");
+                    foreach(Ticket t in Tickets){
+                        Console.WriteLine(t.Display());
+                    }
+                    Console.ForegroundColor = ConsoleColor.White;
+                }
+                if(choice == "3"){
                     //type of ticket
                     Console.WriteLine("Types of Tickets; Bug, Enhancement, Task");
                     Console.Write("Type: ");
@@ -135,13 +164,13 @@ namespace TicketSystem
                         }
                     }
                 }
-                if(choice == "3"){
+                if(choice == "4"){
                     //Removes ticket by ID
                     Console.Write("ID of ticket to remove: ");
                     int ticketID = int.Parse(Console.ReadLine());
                     ticketFile.RemoveTicket(ticketID);
                 }
-            }while(choice == "1" || choice == "2" || choice == "3");
+            }while(choice == "1" || choice == "2" || choice == "3" || choice == "4");
             logger.Info("Program ended");
         }
     }

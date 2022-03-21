@@ -1,3 +1,3 @@
-2,Lightbulb in Rec Room is out,Low,Low,John,Stacy,John|Stacy,Unassigned
-3,Upgrading to Windows 11,Started,Low,Jane,Jacob,Jonathon|Jonas,Windows 11,199,Boss said so,1000
-4,Install new router,Started,High,Jonathon,Jonas,James|Jill,Router Replacement,3/24/2022 12:00:00 AM
+2,Lightbulb in Rec Room is out,Done,Low,John,Stacy,John|Stacy,Unassigned
+3,Upgrading to Windows 11,In Process,Normal,Jane,Jacob,Jonathon|Jonas,Windows 11,199,Boss said so,1000
+4,Install new router,Open,High,Jonathon,Jonas,James|Jill,Router Replacement,3/24/2022 12:00:00 AM
