@@ -58,6 +58,7 @@ namespace TicketSystem
                         ticket.Severity = Console.ReadLine();
                         //add ticket to file
                         ticketFile.AddTicket(ticket);
+                        logger.Info("Successfully added new Bug");
                     }
                     else if(input == "enhancement"){
                         try{
@@ -92,6 +93,7 @@ namespace TicketSystem
                             ticket.Estimate = double.Parse(Console.ReadLine());
                             //add ticket to file
                             ticketFile.AddTicket(ticket);
+                            logger.Info("Successfully added new Enhancement");
                         }
                         catch(Exception ex){
                             logger.Error(ex.Message);
@@ -126,6 +128,7 @@ namespace TicketSystem
                             ticket.DueDate = DateTime.Parse(Console.ReadLine());
                             //add ticket to file
                             ticketFile.AddTicket(ticket);
+                            logger.Info("Successfully added new Task");
                         }
                         catch(Exception ex){
                             logger.Error(ex.Message);
